@@ -2,7 +2,6 @@ import streamlit as st
 
 st.set_page_config(page_title="Calcolatore Cocktail", page_icon="🍹", layout="wide")
 
-# --- Google Analytics ---
 analytics_code = """
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QRZKCGPPKY"></script>
@@ -15,7 +14,6 @@ analytics_code = """
 </script>
 """
 st.markdown(analytics_code, unsafe_allow_html=True)
-
 
 # -------------------
 # CSS + animazioni
