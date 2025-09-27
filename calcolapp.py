@@ -4,16 +4,18 @@ st.set_page_config(page_title="Calcolatore Cocktail", page_icon="🍹", layout="
 
 # --- Google Analytics ---
 analytics_code = """
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QRZKCGPPKY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');  // sostituisci con il tuo ID
+
+  gtag('config', 'G-QRZKCGPPKY');
 </script>
 """
 st.markdown(analytics_code, unsafe_allow_html=True)
+
 
 # -------------------
 # CSS + animazioni
@@ -171,6 +173,20 @@ div[data-baseweb="input"] > textarea {
 """
 st.markdown(page_bg, unsafe_allow_html=True)
 
+# --- CSS per modificare lo sfondo degli errori ---
+error_style = """
+<style>
+.stAlert {
+    background-color: black !important;  /* oppure white */
+    color: white !important;             /* se scegli white sopra, qui metti black */
+    border-radius: 10px;
+    padding: 15px;
+    font-weight: bold;
+}
+</style>
+"""
+st.markdown(error_style, unsafe_allow_html=True)
+
 # -------------------
 # TRADUZIONI
 # -------------------
@@ -302,12 +318,19 @@ st.markdown(f"<div class='hero'><h1>{L['title']}</h1><p>{L['subtitle']}</p></div
 # -------------------
 # Layout due colonne
 # -------------------
+# -------------------
+# Layout due colonne
+# -------------------
 col1, col2 = st.columns(2)
 
 with col1:
     st.header(L["alcolici"])
-    st.markdown(f"<div class='big-label'>{L['n_alcol']}</div>", unsafe_allow_html=True)
-    n_alcol = st.number_input("", min_value=0, step=1, key="n_alcol")
+    n_alcol = st.number_input(
+        L["n_alcol"],
+        min_value=0,
+        step=1,
+        key="n_alcol"
+    )
     alcolici = []
     for i in range(n_alcol):
         with st.expander(f"{L['alc']} {i+1}"):
@@ -318,17 +341,19 @@ with col1:
                 g = st.text_input(f"{L['g']}", key=f"g_alc_{i}")
             alcolici.append((q, g))
 
-
 with col2:
     st.header(L["analcolici"])
-    st.markdown(f"<div class='big-label'>{L['n_analcol']}</div>", unsafe_allow_html=True)
-    n_analcol = st.number_input("", min_value=0, step=1, key="n_analcol")
+    n_analcol = st.number_input(
+        L["n_analcol"],
+        min_value=0,
+        step=1,
+        key="n_analcol"
+    )
     analcolici = []
     for i in range(n_analcol):
         with st.expander(f"{L['ing']} {i+1}"):
             q = st.text_input(f"{L['q']}", key=f"q_ing_{i}")
             analcolici.append(q)
-
 
 
 # -------------------
