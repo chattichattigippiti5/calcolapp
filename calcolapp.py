@@ -2,18 +2,19 @@ import streamlit as st
 
 st.set_page_config(page_title="Calcolatore Cocktail", page_icon="🍹", layout="wide")
 
-
+# --- Google Analytics ---
+analytics_code = """
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QRZKCGPPKY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-QRZKCGPPKY');
 </script>
+"""
+st.markdown(analytics_code, unsafe_allow_html=True)
 
-#st.markdown(analytics_code, unsafe_allow_html=True)
 
 # -------------------
 # CSS + animazioni
@@ -185,6 +186,18 @@ div[data-baseweb="input"] > textarea {
     .result-box {
         font-size: 1.5em !important;
     }
+        /* bandiere allineate */
+    .flags-container {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+    .flags-container button {
+        font-size: 1.5em !important;
+        padding: 4px 8px;
+    }
+}
 }
 /* Migliora layout mobile */
 @media (max-width: 768px) {
