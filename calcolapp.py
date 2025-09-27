@@ -27,11 +27,15 @@ page_bg = """
 <style>
 /* Sfondo rosso/arancio caldo */
 .stApp {
-    background: linear-gradient(to bottom, #ff4d4d, #ff944d) !important;
-    background-color: #ff4d4d !important;  /* fallback se il gradiente non si carica */
+    background: #ff4d4d; /* fallback per iPhone */
+    background-image: -webkit-linear-gradient(top, #ff4d4d, #ff944d); /* compatibile Safari */
+    background-image: linear-gradient(to bottom, #ff4d4d, #ff944d);
+    background-attachment: scroll;
+    background-size: cover;
     color: #ccff33;
     overflow-x: hidden;
 }
+
 
 
 /* Sole animato */
