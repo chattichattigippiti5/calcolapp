@@ -1,20 +1,24 @@
 import streamlit as st
 
+import streamlit.components.v1 as components
+
+
 st.set_page_config(page_title="Calcolatore Cocktail", page_icon="🍹", layout="wide")
 
-# --- Google Analytics ---
-analytics_code = """
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QRZKCGPPKY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-QRZKCGPPKY');
-</script>
-"""
-st.markdown(analytics_code, unsafe_allow_html=True)
-
+components.html(
+    """
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QRZKCGPPKY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QRZKCGPPKY');
+    </script>
+    """,
+    height=0,
+    width=0,
+)
 
 # -------------------
 # CSS + animazioni
@@ -23,10 +27,12 @@ page_bg = """
 <style>
 /* Sfondo rosso/arancio caldo */
 .stApp {
-    background: linear-gradient(to bottom, #ff4d4d, #ff944d);
+    background: linear-gradient(to bottom, #ff4d4d, #ff944d) !important;
+    background-color: #ff4d4d !important;  /* fallback se il gradiente non si carica */
     color: #ccff33;
     overflow-x: hidden;
 }
+
 
 /* Sole animato */
 .sun {
@@ -376,12 +382,7 @@ L = TEXTS[st.session_state["lang"]]
 # -------------------
 st.markdown(f"<div class='hero'><h1>{L['title']}</h1><p>{L['subtitle']}</p></div>", unsafe_allow_html=True)
 
-# -------------------
-# Layout due colonne
-# -------------------
-# Layout due colonne
-# -------------------
-# -------------------
+
 # Layout due colonne
 # -------------------
 col1, col2 = st.columns(2)
