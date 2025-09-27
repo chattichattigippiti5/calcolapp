@@ -174,6 +174,7 @@ div[data-baseweb="input"] > textarea {
 }
 
 /* --- Mobile responsive fix --- */
+
 @media (max-width: 768px) {
     /* Le colonne di Streamlit diventano blocchi verticali */
     .block-container {
@@ -198,7 +199,8 @@ div[data-baseweb="input"] > textarea {
     .result-box {
         font-size: 1.5em !important;
     }
-        /* bandiere allineate */
+
+    /* bandiere allineate */
     .flags-container {
         display: flex;
         justify-content: center;
@@ -209,30 +211,19 @@ div[data-baseweb="input"] > textarea {
         font-size: 1.5em !important;
         padding: 4px 8px;
     }
-}
-}
-/* Migliora layout mobile */
-@media (max-width: 768px) {
-    /* Forza le colonne in verticale */
-    .st-emotion-cache-ocqkz7, .st-emotion-cache-1r6slb0 {
-        flex-direction: column !important;
-        width: 100% !important;
-    }
 
-    /* Inputs più grandi */
+    /* Inputs e pulsanti più grandi */
     input, textarea {
+        font-size: 18px !important;
+    }
+    .stButton button {
+        width: 100% !important;
         font-size: 18px !important;
     }
 
     /* Titoli centrati */
     h1, h2, h3, label {
         text-align: center !important;
-    }
-
-    /* Pulsanti più larghi e leggibili */
-    .stButton button {
-        width: 100% !important;
-        font-size: 18px !important;
     }
 }
 
