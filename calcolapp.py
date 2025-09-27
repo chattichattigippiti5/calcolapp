@@ -40,7 +40,7 @@ page_bg = """
 
 /* Sole animato */
 .sun {
-    position: fixed;
+    position: absolute;
     top: 5%;
     left: 80%;
     width: 150px;
@@ -49,8 +49,9 @@ page_bg = """
     border-radius: 50%;
     box-shadow: 0 0 80px 30px rgba(255, 223, 0, 0.8);
     animation: pulse 6s ease-in-out infinite, colorShift 10s linear infinite;
-    z-index: -1;
+    z-index: 0;
 }
+
 .sun::before {
     content: "";
     position: absolute;
@@ -65,12 +66,13 @@ page_bg = """
 
 /* Emoji animate */
 .float {
-    position: fixed;
+    position: absolute;
     font-size: 60px;
     opacity: 0.8;
     animation: floaty 14s ease-in-out infinite, fade 6s ease-in-out infinite alternate;
     z-index: 0;
 }
+
 .float1 { top: 70%; left: 10%; animation-delay: 0s, 0s; }
 .float2 { top: 60%; left: 80%; animation-delay: 3s, 2s; }
 .float3 { top: 85%; left: 40%; animation-delay: 6s, 4s; }
