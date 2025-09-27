@@ -27,10 +27,10 @@ page_bg = """
 <style>
 /* Sfondo rosso/arancio caldo */
 .stApp {
-    background: #ff4d4d; /* fallback per iPhone */
-    background-image: -webkit-linear-gradient(top, #ff4d4d, #ff944d); /* compatibile Safari */
-    background-image: linear-gradient(to bottom, #ff4d4d, #ff944d);
-    background-attachment: scroll;
+    background: #ff4d4d; /* fallback */
+    background-image: -webkit-linear-gradient(top, #ff4d4d, #ff944d); /* Safari */
+    background-image: linear-gradient(to bottom, #ff4d4d, #ff944d); /* Standard */
+    background-attachment: scroll; /* Safari fix */
     background-size: cover;
     color: #ccff33;
     overflow-x: hidden;
