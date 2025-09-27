@@ -161,6 +161,34 @@ div[data-baseweb="input"] > textarea {
     50% { background: radial-gradient(circle, #FFA500 40%, #FF6347 100%); }
     100% { background: radial-gradient(circle, #FFD700 40%, #FFA500 100%); }
 }
+
+/* --- Mobile responsive fix --- */
+@media (max-width: 768px) {
+    /* Le colonne di Streamlit diventano blocchi verticali */
+    .block-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    .stHorizontalBlock {
+        flex-direction: column !important;
+    }
+    .stColumn {
+        width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+
+    /* Titoli e testo più leggibili */
+    .hero h1 {
+        font-size: 2em !important;
+    }
+    .hero p {
+        font-size: 1.1em !important;
+    }
+    .result-box {
+        font-size: 1.5em !important;
+    }
+}
+
 </style>
 
 <div class="sun"></div>
