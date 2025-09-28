@@ -66,7 +66,7 @@ page_bg = """
 
 /* Emoji animate */
 .float {
-    position: absolute;
+    position: fixed;
     font-size: 60px;
     opacity: 0.8;
     animation: floaty 14s ease-in-out infinite, fade 6s ease-in-out infinite alternate;
