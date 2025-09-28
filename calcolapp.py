@@ -5,20 +5,7 @@ import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Calcolatore Cocktail", page_icon="🍹", layout="wide")
 
-components.html(
-    """
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QRZKCGPPKY"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-QRZKCGPPKY');
-    </script>
-    """,
-    height=0,
-    width=0,
-)
+
 
 # -------------------
 # CSS + animazioni
