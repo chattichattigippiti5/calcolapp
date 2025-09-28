@@ -25,64 +25,52 @@ components.html(
 # -------------------
 page_bg = """
 <style>
-/* Sfondo rosso/arancio caldo */
+/* Sfondo blu/turchese */
 .stApp {
-    background: #ff4d4d; /* fallback */
-    background-image: -webkit-linear-gradient(top, #ff4d4d, #ff944d); /* Safari */
-    background-image: linear-gradient(to bottom, #ff4d4d, #ff944d); /* Standard */
-    background-attachment: scroll; /* Safari fix */
+    background: #0077b6; /* fallback */
+    background-image: -webkit-linear-gradient(top, #0077b6, #00b4d8); /* Safari */
+    background-image: linear-gradient(to bottom, #0077b6, #00b4d8); /* Standard */
+    background-attachment: scroll;
     background-size: cover;
-    color: #ccff33;
+    color: #ffffff;
     overflow-x: hidden;
 }
 
-
-
-/* Sole animato */
+/* Sole semplificato */
 .sun {
     position: absolute;
-    top: 5%;
-    left: 80%;
-    width: 150px;
-    height: 150px;
-    background: radial-gradient(circle, #FFD700 40%, #FFA500 100%);
+    top: 8%;
+    left: 75%;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, #FFD700 60%, #FFA500 100%);
     border-radius: 50%;
-    box-shadow: 0 0 80px 30px rgba(255, 223, 0, 0.8);
-    animation: pulse 6s ease-in-out infinite, colorShift 10s linear infinite;
+    box-shadow: 0 0 40px 15px rgba(255, 223, 0, 0.6);
     z-index: 0;
 }
 
-.sun::before {
-    content: "";
-    position: absolute;
-    top: -50px;
-    left: -50px;
-    right: -50px;
-    bottom: -50px;
-    border: 12px solid rgba(255, 215, 0, 0.5);
-    border-radius: 50%;
-    animation: spin 25s linear infinite, pulse 6s ease-in-out infinite;
-}
-
-/* Emoji animate */
+/* Emoji statiche ai margini */
+/* Emoji statiche sparse su tutta la viewport */
 .float {
-    position: fixed;
-    font-size: 60px;
-    opacity: 0.8;
-    animation: floaty 14s ease-in-out infinite, fade 6s ease-in-out infinite alternate;
+    position: fixed; /* ora relative alla finestra */
+    font-size: 55px;
+    opacity: 0.6;
     z-index: 0;
+    pointer-events: none; /* non interferiscono con bottoni e input */
 }
 
-.float1 { top: 70%; left: 10%; animation-delay: 0s, 0s; }
-.float2 { top: 60%; left: 80%; animation-delay: 3s, 2s; }
-.float3 { top: 85%; left: 40%; animation-delay: 6s, 4s; }
-.float4 { top: 20%; left: 15%; animation-delay: 9s, 1s; }
-.float5 { top: 30%; left: 60%; animation-delay: 12s, 3s; }
-.float6 { top: 75%; left: 70%; animation-delay: 15s, 5s; }
+/* Posizionamento ai bordi e distribuiti su tutta la finestra */
+.float1 { top: 10%; left: 5%; }
+.float2 { top: 25%; right: 8%; }
+.float3 { top: 50%; left: 3%; }
+.float4 { top: 55%; right: 6%; }
+.float5 { bottom: 15%; left: 20%; }
+.float6 { bottom: 10%; right: 25%; }
+
 
 /* Hero */
 .hero {
-    height: 60vh;
+    height: 50vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -92,13 +80,13 @@ page_bg = """
 .hero h1 {
     font-size: 3em;
     margin: 0;
-    color: #ccff33;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    color: #ffffff;
+    text-shadow: 1px 1px 6px rgba(0,0,0,0.4);
 }
 .hero p {
     font-size: 1.3em;
-    margin-top: 20px;
-    color: #ccff33;
+    margin-top: 15px;
+    color: #d9f7ff;
     max-width: 800px;
 }
 
@@ -106,31 +94,18 @@ page_bg = """
 .result-box {
     text-align: center;
     font-size: 2em;
-    background: #FFD700;
-    padding: 20px;
-    border-radius: 12px;
+    background: #00b4d8;
+    padding: 18px;
+    border-radius: 10px;
     margin-top: 30px;
     color: #00334d;
     font-weight: bold;
-    box-shadow: 0 0 25px rgba(255,255,255,0.6);
+    box-shadow: 0 0 20px rgba(255,255,255,0.4);
 }
 
-/* Input */
-div[data-baseweb="input"] > input,
-div[data-baseweb="input"] > textarea {
-    background-color: #d1f7ff !important;
-    color: #00334d !important;
-    border-radius: 10px !important;
-    border: 2px solid #00bcd4 !important;
-}
-.streamlit-expanderHeader {
-    background-color: #00bcd4 !important;
-    color: #00334d !important;
-    font-weight: bold;
-    border-radius: 8px;
-}
+/* Pulsanti (rosso/arancio caldo) */
 .stButton button {
-    background: linear-gradient(90deg, #00e5ff, #00bcd4) !important;
+    background: linear-gradient(90deg, #ff4d4d, #ff944d) !important;
     color: white !important;
     border-radius: 12px !important;
     font-weight: bold !important;
@@ -139,104 +114,36 @@ div[data-baseweb="input"] > textarea {
 .stButton button:hover {
     transform: scale(1.05);
     transition: 0.3s;
+    background: linear-gradient(90deg, #ff1a1a, #ff751a) !important;
 }
 
-/* Label grandi */
-.big-label {
-    font-size: 1.2em;
+/* Input */
+div[data-baseweb="input"] > input,
+div[data-baseweb="input"] > textarea {
+    background-color: #caf0f8 !important;
+    color: #00334d !important;
+    border-radius: 10px !important;
+    border: 2px solid #00bcd4 !important;
+}
+
+/* Expander */
+.streamlit-expanderHeader {
+    background-color: #0096c7 !important;
+    color: #ffffff !important;
     font-weight: bold;
-    color: #00334d;
-    margin-bottom: 10px;
+    border-radius: 8px;
 }
-
-/* Animazioni */
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-@keyframes floaty {
-    0% { transform: translate(0px, 0px); }
-    50% { transform: translate(20px, -40px); }
-    100% { transform: translate(0px, 0px); }
-}
-@keyframes fade {
-    from { opacity: 0.4; }
-    to { opacity: 1; }
-}
-@keyframes colorShift {
-    0% { background: radial-gradient(circle, #FFD700 40%, #FFA500 100%); }
-    50% { background: radial-gradient(circle, #FFA500 40%, #FF6347 100%); }
-    100% { background: radial-gradient(circle, #FFD700 40%, #FFA500 100%); }
-}
-
-/* --- Mobile responsive fix --- */
-
-@media (max-width: 768px) {
-    /* Le colonne di Streamlit diventano blocchi verticali */
-    .block-container {
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-    }
-    .stHorizontalBlock {
-        flex-direction: column !important;
-    }
-    .stColumn {
-        width: 100% !important;
-        flex: 1 1 100% !important;
-    }
-
-    /* Titoli e testo più leggibili */
-    .hero h1 {
-        font-size: 2em !important;
-    }
-    .hero p {
-        font-size: 1.1em !important;
-    }
-    .result-box {
-        font-size: 1.5em !important;
-    }
-
-    /* bandiere allineate */
-    .flags-container {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        margin-bottom: 15px;
-    }
-    .flags-container button {
-        font-size: 1.5em !important;
-        padding: 4px 8px;
-    }
-
-    /* Inputs e pulsanti più grandi */
-    input, textarea {
-        font-size: 18px !important;
-    }
-    .stButton button {
-        width: 100% !important;
-        font-size: 18px !important;
-    }
-
-    /* Titoli centrati */
-    h1, h2, h3, label {
-        text-align: center !important;
-    }
-}
-
 </style>
 
 <div class="sun"></div>
 <div class="float float1">🕶️</div>
-<div class="float float2">⛱️</div>
-<div class="float float3">🏖️</div>
-<div class="float float4">🍸</div>
+<div class="float float2">🍍</div>
+<div class="float float3">🍸</div>
+<div class="float float4">🍓</div>
 <div class="float float5">🍹</div>
 <div class="float float6">🌊</div>
 """
+
 st.markdown(page_bg, unsafe_allow_html=True)
 
 # --- CSS per modificare lo sfondo degli errori ---
