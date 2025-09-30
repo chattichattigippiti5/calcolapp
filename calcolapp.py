@@ -1,19 +1,24 @@
 import streamlit as st
 
+import streamlit.components.v1 as components
+
+
 st.set_page_config(page_title="Calcolatore Cocktail", page_icon="🍹", layout="wide")
 
-# --- Google Analytics ---
-analytics_code = """
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QRZKCGPPKY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-QRZKCGPPKY');  // sostituisci con il tuo ID
-</script>
-"""
-st.markdown(analytics_code, unsafe_allow_html=True)
+components.html(
+    """
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QRZKCGPPKY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QRZKCGPPKY');
+    </script>
+    """,
+    height=0,
+    width=0,
+)
 
 # -------------------
 # CSS + animazioni
@@ -22,14 +27,20 @@ page_bg = """
 <style>
 /* Sfondo rosso/arancio caldo */
 .stApp {
-    background: linear-gradient(to bottom, #ff4d4d, #ff944d);
+    background: #ff4d4d; /* fallback */
+    background-image: -webkit-linear-gradient(top, #ff4d4d, #ff944d); /* Safari */
+    background-image: linear-gradient(to bottom, #ff4d4d, #ff944d); /* Standard */
+    background-attachment: scroll; /* Safari fix */
+    background-size: cover;
     color: #ccff33;
     overflow-x: hidden;
 }
 
+
+
 /* Sole animato */
 .sun {
-    position: fixed;
+    position: absolute;
     top: 5%;
     left: 80%;
     width: 150px;
@@ -38,8 +49,9 @@ page_bg = """
     border-radius: 50%;
     box-shadow: 0 0 80px 30px rgba(255, 223, 0, 0.8);
     animation: pulse 6s ease-in-out infinite, colorShift 10s linear infinite;
-    z-index: -1;
+    z-index: 0;
 }
+
 .sun::before {
     content: "";
     position: absolute;
@@ -60,6 +72,7 @@ page_bg = """
     animation: floaty 14s ease-in-out infinite, fade 6s ease-in-out infinite alternate;
     z-index: 0;
 }
+
 .float1 { top: 70%; left: 10%; animation-delay: 0s, 0s; }
 .float2 { top: 60%; left: 80%; animation-delay: 3s, 2s; }
 .float3 { top: 85%; left: 40%; animation-delay: 6s, 4s; }
@@ -159,6 +172,61 @@ div[data-baseweb="input"] > textarea {
     50% { background: radial-gradient(circle, #FFA500 40%, #FF6347 100%); }
     100% { background: radial-gradient(circle, #FFD700 40%, #FFA500 100%); }
 }
+
+/* --- Mobile responsive fix --- */
+
+@media (max-width: 768px) {
+    /* Le colonne di Streamlit diventano blocchi verticali */
+    .block-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    .stHorizontalBlock {
+        flex-direction: column !important;
+    }
+    .stColumn {
+        width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+
+    /* Titoli e testo più leggibili */
+    .hero h1 {
+        font-size: 2em !important;
+    }
+    .hero p {
+        font-size: 1.1em !important;
+    }
+    .result-box {
+        font-size: 1.5em !important;
+    }
+
+    /* bandiere allineate */
+    .flags-container {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+    .flags-container button {
+        font-size: 1.5em !important;
+        padding: 4px 8px;
+    }
+
+    /* Inputs e pulsanti più grandi */
+    input, textarea {
+        font-size: 18px !important;
+    }
+    .stButton button {
+        width: 100% !important;
+        font-size: 18px !important;
+    }
+
+    /* Titoli centrati */
+    h1, h2, h3, label {
+        text-align: center !important;
+    }
+}
+
 </style>
 
 <div class="sun"></div>
@@ -170,6 +238,20 @@ div[data-baseweb="input"] > textarea {
 <div class="float float6">🌊</div>
 """
 st.markdown(page_bg, unsafe_allow_html=True)
+
+# --- CSS per modificare lo sfondo degli errori ---
+error_style = """
+<style>
+.stAlert {
+    background-color: black !important;  /* oppure white */
+    color: white !important;             /* se scegli white sopra, qui metti black */
+    border-radius: 10px;
+    padding: 15px;
+    font-weight: bold;
+}
+</style>
+"""
+st.markdown(error_style, unsafe_allow_html=True)
 
 # -------------------
 # TRADUZIONI
@@ -297,17 +379,19 @@ L = TEXTS[st.session_state["lang"]]
 # -------------------
 st.markdown(f"<div class='hero'><h1>{L['title']}</h1><p>{L['subtitle']}</p></div>", unsafe_allow_html=True)
 
-# -------------------
-# Layout due colonne
-# -------------------
+
 # Layout due colonne
 # -------------------
 col1, col2 = st.columns(2)
 
 with col1:
     st.header(L["alcolici"])
-    st.markdown(f"<div class='big-label'>{L['n_alcol']}</div>", unsafe_allow_html=True)
-    n_alcol = st.number_input("", min_value=0, step=1, key="n_alcol")
+    n_alcol = st.number_input(
+        L["n_alcol"],
+        min_value=0,
+        step=1,
+        key="n_alcol"
+    )
     alcolici = []
     for i in range(n_alcol):
         with st.expander(f"{L['alc']} {i+1}"):
@@ -318,17 +402,19 @@ with col1:
                 g = st.text_input(f"{L['g']}", key=f"g_alc_{i}")
             alcolici.append((q, g))
 
-
 with col2:
     st.header(L["analcolici"])
-    st.markdown(f"<div class='big-label'>{L['n_analcol']}</div>", unsafe_allow_html=True)
-    n_analcol = st.number_input("", min_value=0, step=1, key="n_analcol")
+    n_analcol = st.number_input(
+        L["n_analcol"],
+        min_value=0,
+        step=1,
+        key="n_analcol"
+    )
     analcolici = []
     for i in range(n_analcol):
         with st.expander(f"{L['ing']} {i+1}"):
             q = st.text_input(f"{L['q']}", key=f"q_ing_{i}")
             analcolici.append(q)
-
 
 
 # -------------------
