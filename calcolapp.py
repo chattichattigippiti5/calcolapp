@@ -4,6 +4,12 @@ import streamlit.components.v1 as components
 
 import pandas as pd
 
+from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+from reportlab.lib.units import cm
+from io import BytesIO
+from reportlab.lib.pagesizes import A4
+
 # Carica la lista alcolici da CSV
 df_alcolici = pd.read_csv("lista_alcolici.csv", sep=";")
 
@@ -535,13 +541,64 @@ with col_btn1:
 
                 with st.container():
                     st.markdown("<div class='centered-download'>", unsafe_allow_html=True)
-                    st.download_button(
-                        label="📥 Download ricetta",
-                        data=cocktail_txt,
-                        file_name="cocktail.txt",
-                        mime="text/plain",
-                        key="download_button"
-                    )
+                    if "last_result" in st.session_state:
+                        if st.session_state["last_result"]:
+                            buffer = BytesIO()
+                            c = canvas.Canvas(buffer, pagesize=A4)
+                            width, height = A4
+
+                            # --- Sfondo allegro (rettangolo sfumato a mano) ---
+                            c.setFillColorRGB(1, 0.6, 0.2)  # arancio
+                            c.rect(0, 0, width, height, fill=1, stroke=0)
+
+                            # --- Titolo ---
+                            c.setFont("Helvetica-Bold", 28)
+                            c.setFillColor(colors.yellow)
+                            c.drawCentredString(width/2, height - 80, "🍹 Cocktail Personalizzato 🍹")
+
+                            # --- Sottotitolo ---
+                            c.setFont("Helvetica-Oblique", 14)
+                            c.setFillColor(colors.white)
+                            c.drawCentredString(width/2, height - 110, "La tua ricetta esclusiva")
+
+                            # --- Ingredienti ---
+                            y = height - 170
+                            c.setFont("Helvetica", 16)
+                            c.setFillColor(colors.black)
+
+                            for nome, q, g in lista_alcolici:
+                                c.setFillColor(colors.white)
+                                c.drawString(80, y, f"🥃 {nome} - {q} ml @ {g}%")
+                                y -= 25
+
+                            for nome, q in lista_analcolici:
+                                c.setFillColor(colors.white)
+                                c.drawString(80, y, f"🥤 {nome} - {q} ml")
+                                y -= 25
+
+                            # --- Gradazione finale ---
+                            c.setFont("Helvetica-Bold", 20)
+                            c.setFillColor(colors.limegreen)
+                            c.drawCentredString(width/2, y - 40, f"👉 Gradazione finale: {st.session_state['last_result']} % vol")
+
+                            # --- Footer ---
+                            c.setFont("Helvetica-Oblique", 12)
+                            c.setFillColor(colors.white)
+                            c.drawCentredString(width/2, 40, "🌴 Cheers & Enjoy your drink! 🌴")
+
+                            c.showPage()
+                            c.save()
+
+                            buffer.seek(0)
+
+                            # Pulsante download PDF
+                            st.download_button(
+                                label="📥 Scarica la tua ricetta in PDF",
+                                data=buffer,
+                                file_name="cocktail.pdf",
+                                mime="application/pdf"
+                            )
+
                     st.markdown("</div>", unsafe_allow_html=True)
 
 
