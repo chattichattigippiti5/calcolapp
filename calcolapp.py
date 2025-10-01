@@ -349,8 +349,8 @@ translations = {
         "ingrediente": "Ingredient",
         "calcola": "Calculate ABV 🍸",
         "reset": "🌴🔄 Next 🌞",
-        "Nome ingrediente" : "Ingredient's name"
-        "Seleziona Alcolico" : "Choose alcohol"
+        "Nome ingrediente" : "Ingredient's name",
+        "Seleziona Alcolico" : "Choose alcohol",
     },
     "es": {
         "alcolici": "Bebidas alcohólicas",
@@ -360,8 +360,8 @@ translations = {
         "ingrediente": "Ingrediente",
         "calcola": "Calcular graduación 🍸",
         "reset": "🌴🔄 Siguiente 🌞",
-        "Nome ingrediente" : "Nombre ingrediente"
-        "Seleziona Alcolico" : "Seleccionas alcohol"
+        "Nome ingrediente" : "Nombre ingrediente",
+        "Seleziona Alcolico" : "Seleccionas alcohol",
     }
 }
 
