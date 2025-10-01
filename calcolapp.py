@@ -477,9 +477,9 @@ with col_btn1:
         try:
             #lista_alcolici: (nome, q, g)
             lista_alcolici = [(nome, float(q), float(g))
-                                for nome, q, g in alcolici if q.strip() and g.strip()]
+                                for nome, q, g in alcolici if str(q).strip() and str(g).strip()]
             lista_analcolici = [(nome, float(q))
-                                for nome, q in analcolici if q.strip()]
+                                for nome, q in analcolici if str(q).strip()]
 
             grado_alcol = sum(q * g for _, q, g in lista_alcolici)
             q_tot = sum(q for _, q, _ in lista_alcolici) + sum(q for _, q in lista_analcolici)
