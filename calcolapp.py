@@ -506,17 +506,49 @@ with col_btn1:
 
 
                 # 🔹 Pulsante di download
-                st.download_button(
-                    label="📥 Download",
-                    data=cocktail_txt,
-                    file_name="cocktail.txt",
-                    mime="text/plain"
+                # 🔹 Pulsante di download centrato in basso e rosso
+                st.markdown(
+                    """
+                    <style>
+                    .centered-download {
+                        display: flex;
+                        justify-content: center;
+                        margin-top: 40px;
+                    }
+                    .stDownloadButton button {
+                        background-color: #ff4d4d !important; /* Rosso */
+                        color: white !important;             /* Testo bianco */
+                        font-weight: bold !important;
+                        border-radius: 10px !important;
+                        padding: 12px 24px !important;
+                        font-size: 18px !important;
+                    }
+                    .stDownloadButton button:hover {
+                        background-color: #cc0000 !important; /* Rosso più scuro al passaggio */
+                        transform: scale(1.05);
+                        transition: 0.3s;
+                    }
+                    </style>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+                with st.container():
+                    st.markdown("<div class='centered-download'>", unsafe_allow_html=True)
+                    st.download_button(
+                        label="📥 Download ricetta",
+                        data=cocktail_txt,
+                        file_name="cocktail.txt",
+                        mime="text/plain",
+                        key="download_button"
                     )
+                    st.markdown("</div>", unsafe_allow_html=True)
+
 
             else:
-                st.error(L["error_ing"])
+                                st.error(L["error_ing"])
         except ValueError:
-            st.error(L["error_num"])
+                            st.error(L["error_num"])
 
 
 with col_btn2:
