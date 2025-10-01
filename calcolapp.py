@@ -419,7 +419,7 @@ with col1:
                 else:
                     nome_altro = alcolico_scelto
 
-                )
+    )
 
             with col_grad:
                 if alcolico_scelto != "Altro / Other":
