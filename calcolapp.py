@@ -349,6 +349,8 @@ translations = {
         "ingrediente": "Ingredient",
         "calcola": "Calculate ABV 🍸",
         "reset": "🌴🔄 Next 🌞",
+        "Nome ingrediente" : "Ingredient's name"
+        "Seleziona Alcolico" : "Choose alcohol"
     },
     "es": {
         "alcolici": "Bebidas alcohólicas",
@@ -358,6 +360,8 @@ translations = {
         "ingrediente": "Ingrediente",
         "calcola": "Calcular graduación 🍸",
         "reset": "🌴🔄 Siguiente 🌞",
+        "Nome ingrediente" : "Nombre ingrediente"
+        "Seleziona Alcolico" : "Seleccionas alcohol"
     }
 }
 
@@ -471,7 +475,7 @@ col_spacer, col_btn1, col_btn2, col_spacer2 = st.columns([1, 2, 1, 1])
 with col_btn1:
     if st.button(L["calc"]):
         try:
-            # lista_alcolici: (nome, q, g)
+            #lista_alcolici: (nome, q, g)
             lista_alcolici = [(nome, float(q), float(g))
                                 for nome, q, g in alcolici if q.strip() and g.strip()]
             lista_analcolici = [(nome, float(q))
