@@ -469,20 +469,51 @@ st.markdown("<div style='text-align: center; margin-top: 30px;'>", unsafe_allow_
 col_spacer, col_btn1, col_btn2, col_spacer2 = st.columns([1, 2, 1, 1])
 
 with col_btn1:
-    if st.button(L["calc"]):
-        try:
-            lista_alcolici = [(float(q), float(g)) for _,q, g in alcolici if q.strip() and g.strip()]
-            lista_analcolici = [float(q) for q in analcolici if q.strip()]
+if st.button(L["calc"]):
+try:
+    # lista_alcolici: (nome, q, g)
+    lista_alcolici = [(nome, float(q), float(g))
+                      for nome, q, g in alcolici if q.strip() and g.strip()]
+    lista_analcolici = [(nome, float(q))
+                        for nome, q in analcolici if q.strip()]
 
-            grado_alcol = sum(q * g for q, g in lista_alcolici)
-            q_tot = sum(q for q, _ in lista_alcolici) + sum(lista_analcolici)
+    grado_alcol = sum(q * g for _, q, g in lista_alcolici)
+    q_tot = sum(q for _, q, _ in lista_alcolici) + sum(q for _, q in lista_analcolici)
 
-            if q_tot > 0:
-                st.session_state["last_result"] = round(grado_alcol / q_tot, 2)
-            else:
-                st.error(L["error_ing"])
-        except ValueError:
-            st.error(L["error_num"])
+    if q_tot > 0:
+        st.session_state["last_result"] = round(grado_alcol / q_tot, 2)
+
+        # 🔹 Prepariamo il testo della ricetta
+        cocktail_txt = "════════════════════════════════════\n"
+        cocktail_txt += "   🍸                            🍸\n"
+        cocktail_txt += "════════════════════════════════════\n\n"
+
+cocktail_txt += "🥃 Alcolici:\n"
+for nome, q, g in lista_alcolici:
+    cocktail_txt += f"- {nome:<12} {q} ml @ {g}%\n"
+
+cocktail_txt += "\n🥤 Analcolici:\n"
+for nome, q in lista_analcolici:
+    cocktail_txt += f"- {nome:<12} {q} ml\n"
+
+cocktail_txt += "\n------------------------------------\n"
+cocktail_txt += f"👉 : {st.session_state['last_result']} % vol\n"
+cocktail_txt += "════════════════════════════════════\n"
+
+
+        # 🔹 Pulsante di download
+        st.download_button(
+            label="📥 Download",
+            data=cocktail_txt,
+            file_name="cocktail.txt",
+            mime="text/plain"
+        )
+
+    else:
+        st.error(L["error_ing"])
+except ValueError:
+    st.error(L["error_num"])
+
 
 with col_btn2:
     if st.button(L["reset"]):
