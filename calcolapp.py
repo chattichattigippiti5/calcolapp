@@ -5,7 +5,7 @@ import streamlit.components.v1 as components
 import pandas as pd
 
 # Carica la lista alcolici da CSV
-df_alcolici = pd.read_csv("lista_alcolici.csv")
+df_alcolici = pd.read_csv("lista_alcolici.csv", sep=";")
 
 # Crea un dizionario {nome: gradazione}
 alcolici_db = dict(zip(df_alcolici["Nome"], df_alcolici["Gradazione"]))
