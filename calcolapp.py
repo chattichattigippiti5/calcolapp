@@ -2,6 +2,14 @@ import streamlit as st
 
 import streamlit.components.v1 as components
 
+import pandas as pd
+
+# Carica la lista alcolici da CSV
+df_alcolici = pd.read_csv("lista_alcolici.csv")
+
+# Crea un dizionario {nome: gradazione}
+alcolici_db = dict(zip(df_alcolici["Nome"], df_alcolici["Gradazione"]))
+
 
 st.set_page_config(page_title="Calcolatore Cocktail", page_icon="🍹", layout="wide")
 
@@ -392,15 +400,38 @@ with col1:
         step=1,
         key="n_alcol"
     )
+
     alcolici = []
     for i in range(n_alcol):
         with st.expander(f"{L['alc']} {i+1}"):
-            col_q, col_g = st.columns([1, 1])
-            with col_q:
-                q = st.text_input(f"{L['q']}", key=f"q_alc_{i}")
-            with col_g:
-                g = st.text_input(f"{L['g']}", key=f"g_alc_{i}")
+            col_nome, col_grad = st.columns([2, 1])
+
+            with col_nome:
+                # Menu a tendina con alcolici dal CSV + "Altro"
+                alcolico_scelto = st.selectbox(
+                    f"Seleziona alcolico {i+1}",
+                    options=list(alcolici_db.keys()) + ["Altro"],
+                    key=f"alc_nome_{i}"
+                )
+
+            with col_grad:
+                # Se l'utente sceglie dalla lista → gradazione automatica
+                if alcolico_scelto != "Altro":
+                    g = alcolici_db[alcolico_scelto]
+                    st.markdown(f"**Gradazione: {g}%**")
+                else:
+                    # Se sceglie "Altro" → inserisce manualmente
+                    g = st.text_input(
+                        f"{L['g']}",
+                        key=f"g_alc_{i}"
+                    )
+
+            # Campo quantitativo sempre presente
+            q = st.text_input(f"{L['q']}", key=f"q_alc_{i}")
+
+            # Aggiunge alla lista
             alcolici.append((q, g))
+
 
 with col2:
     st.header(L["analcolici"])
@@ -410,11 +441,16 @@ with col2:
         step=1,
         key="n_analcol"
     )
+
     analcolici = []
     for i in range(n_analcol):
         with st.expander(f"{L['ing']} {i+1}"):
+            # Campo per il nome dell'ingrediente
+            nome = st.text_input(f"Nome ingrediente {i+1}", key=f"nome_ing_{i}")
+            # Campo per il quantitativo
             q = st.text_input(f"{L['q']}", key=f"q_ing_{i}")
-            analcolici.append(q)
+            analcolici.append((nome, q))
+
 
 
 # -------------------
