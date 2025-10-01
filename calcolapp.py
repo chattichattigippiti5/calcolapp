@@ -412,14 +412,13 @@ with col1:
                     f"Seleziona alcolico {i+1}",
                     options=list(alcolici_db.keys()) + ["Altro / Other"],
                     key=f"alc_nome_{i}"
-    )
+                )
 
                 if alcolico_scelto == "Altro / Other":
                     nome_altro = st.text_input(f"Nome alcolico {i+1}", key=f"nome_altro_{i}")
                 else:
                     nome_altro = alcolico_scelto
 
-    )
 
             with col_grad:
                 if alcolico_scelto != "Altro / Other":
