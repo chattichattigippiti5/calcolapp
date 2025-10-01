@@ -483,36 +483,36 @@ with col_btn1:
             if q_tot > 0:
                 st.session_state["last_result"] = round(grado_alcol / q_tot, 2)
 
-            # 🔹 Prepariamo il testo della ricetta
-            cocktail_txt = "════════════════════════════════════\n"
-            cocktail_txt += "   🍸                            🍸\n"
-            cocktail_txt += "════════════════════════════════════\n\n"
+                # 🔹 Prepariamo il testo della ricetta
+                cocktail_txt = "════════════════════════════════════\n"
+                cocktail_txt += "   🍸                            🍸\n"
+                cocktail_txt += "════════════════════════════════════\n\n"
 
-            cocktail_txt += "🥃 Alcolici:\n"
-            for nome, q, g in lista_alcolici:
-                cocktail_txt += f"- {nome:<12} {q} ml @ {g}%\n"
+                cocktail_txt += "🥃 Alcolici:\n"
+                for nome, q, g in lista_alcolici:
+                    cocktail_txt += f"- {nome:<12} {q} ml @ {g}%\n"
 
-            cocktail_txt += "\n🥤 Analcolici:\n"
-            for nome, q in lista_analcolici:
-                cocktail_txt += f"- {nome:<12} {q} ml\n"
+                cocktail_txt += "\n🥤 Analcolici:\n"
+                for nome, q in lista_analcolici:
+                    cocktail_txt += f"- {nome:<12} {q} ml\n"
 
-            cocktail_txt += "\n------------------------------------\n"
-            cocktail_txt += f"👉 : {st.session_state['last_result']} % vol\n"
-            cocktail_txt += "════════════════════════════════════\n"
+                cocktail_txt += "\n------------------------------------\n"
+                cocktail_txt += f"👉 : {st.session_state['last_result']} % vol\n"
+                cocktail_txt += "════════════════════════════════════\n"
 
 
-            # 🔹 Pulsante di download
-            st.download_button(
-                label="📥 Download",
-                data=cocktail_txt,
-                file_name="cocktail.txt",
-                mime="text/plain"
-            )
+                # 🔹 Pulsante di download
+                st.download_button(
+                    label="📥 Download",
+                    data=cocktail_txt,
+                    file_name="cocktail.txt",
+                    mime="text/plain"
+                    )
 
-        else:
-            st.error(L["error_ing"])
-    except ValueError:
-        st.error(L["error_num"])
+            else:
+                st.error(L["error_ing"])
+        except ValueError:
+            st.error(L["error_num"])
 
 
 with col_btn2:
