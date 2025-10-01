@@ -410,27 +410,34 @@ with col1:
                 # Menu a tendina con alcolici dal CSV + "Altro"
                 alcolico_scelto = st.selectbox(
                     f"Seleziona alcolico {i+1}",
-                    options=list(alcolici_db.keys()) + ["Altro"],
+                    options=list(alcolici_db.keys()) + ["Altro / Other"],
                     key=f"alc_nome_{i}"
+    )
+
+                if alcolico_scelto == "Altro / Other":
+                    nome_altro = st.text_input(f"Nome alcolico {i+1}", key=f"nome_altro_{i}")
+                else:
+                    nome_altro = alcolico_scelto
+
                 )
 
             with col_grad:
-                # Se l'utente sceglie dalla lista → gradazione automatica
-                if alcolico_scelto != "Altro":
+                if alcolico_scelto != "Altro / Other":
                     g = alcolici_db[alcolico_scelto]
                     st.markdown(f"**Gradazione: {g}%**")
                 else:
-                    # Se sceglie "Altro" → inserisce manualmente
                     g = st.text_input(
-                        f"{L['g']}",
-                        key=f"g_alc_{i}"
+                    f"{L['g']}",
+                    key=f"g_alc_{i}"
                     )
+
 
             # Campo quantitativo sempre presente
             q = st.text_input(f"{L['q']}", key=f"q_alc_{i}")
 
             # Aggiunge alla lista
-            alcolici.append((q, g))
+            alcolici.append((nome_altro, q, g))
+
 
 
 with col2:
@@ -465,7 +472,7 @@ col_spacer, col_btn1, col_btn2, col_spacer2 = st.columns([1, 2, 1, 1])
 with col_btn1:
     if st.button(L["calc"]):
         try:
-            lista_alcolici = [(float(q), float(g)) for q, g in alcolici if q.strip() and g.strip()]
+            lista_alcolici = [(float(q), float(g)) for _,q, g in alcolici if q.strip() and g.strip()]
             lista_analcolici = [float(q) for q in analcolici if q.strip()]
 
             grado_alcol = sum(q * g for q, g in lista_alcolici)
