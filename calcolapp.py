@@ -509,10 +509,10 @@ with col_btn1:
                 mime="text/plain"
             )
 
-        else:
+            else:
             st.error(L["error_ing"])
-    except ValueError:
-        st.error(L["error_num"])
+        except ValueError:
+            st.error(L["error_num"])
 
 
 with col_btn2:
