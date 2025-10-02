@@ -8,16 +8,19 @@ from fpdf import FPDF
 from io import BytesIO
 
 def crea_pdf(lista_alcolici, lista_analcolici, gradazione_finale):
-    buffer = BytesIO()
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_font("Arial", "B", 16)
 
     # Titolo
+    pdf.set_font("Arial", "B", 18)
     pdf.cell(200, 10, "🍹 Cocktail Personalizzato 🍹", ln=True, align="C")
 
-    pdf.set_font("Arial", "", 12)
     pdf.ln(10)
+    pdf.set_font("Arial", "I", 12)
+    pdf.cell(200, 10, "La tua ricetta esclusiva", ln=True, align="C")
+
+    pdf.ln(15)
+    pdf.set_font("Arial", "", 12)
 
     # Ingredienti alcolici
     for nome, q, g in lista_alcolici:
@@ -31,13 +34,12 @@ def crea_pdf(lista_alcolici, lista_analcolici, gradazione_finale):
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, f"👉 Gradazione finale: {gradazione_finale} % vol", ln=True, align="C")
 
-    pdf.ln(20)
+    pdf.ln(10)
     pdf.set_font("Arial", "I", 12)
     pdf.cell(0, 10, "🌴 Cheers & Enjoy your drink! 🌴", ln=True, align="C")
 
-    pdf.output(buffer)
-    buffer.seek(0)
-    return buffer
+    return pdf.output(dest="S").encode("latin1")
+
 
 
 # Carica la lista alcolici da CSV
@@ -622,13 +624,14 @@ with col_btn1:
                 #            buffer.seek(0)
 
                             # Pulsante download PDF
-                pdf_buffer = crea_pdf(lista_alcolici, lista_analcolici, st.session_state["last_result"])
+                pdf_bytes = crea_pdf(lista_alcolici, lista_analcolici, st.session_state["last_result"])
                 st.download_button(
                     label="📥 Scarica la tua ricetta in PDF",
-                    data=pdf_buffer,
+                    data=pdf_bytes,
                     file_name="cocktail.pdf",
                     mime="application/pdf"
                 )
+
 
 
                 st.markdown("</div>", unsafe_allow_html=True)
