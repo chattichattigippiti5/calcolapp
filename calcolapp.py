@@ -631,7 +631,7 @@ with col_btn1:
                 )
 
 
-                    st.markdown("</div>", unsafe_allow_html=True)
+                st.markdown("</div>", unsafe_allow_html=True)
 
 
             else:
