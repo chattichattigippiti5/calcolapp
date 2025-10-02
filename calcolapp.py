@@ -22,7 +22,7 @@ def genera_cocktail_img(lista_alcolici, lista_analcolici, gradazione_finale):
         font_text = ImageFont.load_default()
 
     # Titolo
-    d.text((400, 60), "Cocktail:                ", font=font_title, anchor="mm", fill=(255, 0, 0))
+    d.text((400, 60), "Cocktail: ______________________", font=font_title, anchor="mm", fill=(255, 0, 0))
 
     # Ingredienti
     y = 150
