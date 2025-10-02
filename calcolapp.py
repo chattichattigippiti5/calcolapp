@@ -591,47 +591,47 @@ with col_btn1:
                             # Pulsante download PDF
 
                             # --- Generazione immagine ---
-                            if "last_result" in st.session_state:
-                                if st.session_state["last_result"]:
-                                    # Crea immagine vuota
-                                    img = Image.new("RGB", (800, 600), color=(255, 180, 100))
-                                    draw = ImageDraw.Draw(img)
+                if "last_result" in st.session_state:
+                    if st.session_state["last_result"]:
+                        # Crea immagine vuota
+                        img = Image.new("RGB", (800, 600), color=(255, 180, 100))
+                        draw = ImageDraw.Draw(img)
 
-                                    # Titolo
-                                    draw.text((400, 50), "🍹 Cocktail Personalizzato 🍹", fill="white", anchor="mm", font=ImageFont.load_default())
+                        # Titolo
+                        draw.text((400, 50), "🍹 Cocktail Personalizzato 🍹", fill="white", anchor="mm", font=ImageFont.load_default())
 
-                                    # Ingredienti alcolici
-                                    y = 120
-                                    draw.text((50, y), "🥃 Alcolici:", fill="black", font=ImageFont.load_default())
-                                    y += 30
-                                    for nome, q, g in lista_alcolici:
-                                        draw.text((70, y), f"- {nome} {q} ml @ {g}%", fill="black", font=ImageFont.load_default())
-                                        y += 25
+                        # Ingredienti alcolici
+                        y = 120
+                        draw.text((50, y), "🥃 Alcolici:", fill="black", font=ImageFont.load_default())
+                        y += 30
+                        for nome, q, g in lista_alcolici:
+                            draw.text((70, y), f"- {nome} {q} ml @ {g}%", fill="black", font=ImageFont.load_default())
+                            y += 25
 
-                                    # Ingredienti analcolici
-                                    y += 20
-                                    draw.text((50, y), "🥤 Analcolici:", fill="black", font=ImageFont.load_default())
-                                    y += 30
-                                    for nome, q in lista_analcolici:
-                                        draw.text((70, y), f"- {nome} {q} ml", fill="black", font=ImageFont.load_default())
-                                        y += 25
+                        # Ingredienti analcolici
+                        y += 20
+                        draw.text((50, y), "🥤 Analcolici:", fill="black", font=ImageFont.load_default())
+                        y += 30
+                        for nome, q in lista_analcolici:
+                            draw.text((70, y), f"- {nome} {q} ml", fill="black", font=ImageFont.load_default())
+                            y += 25
 
-                                    # Gradazione finale
-                                    y += 40
-                                    draw.text((400, y), f"👉 Gradazione finale: {st.session_state['last_result']} % vol", fill="red", anchor="mm", font=ImageFont.load_default())
+                        # Gradazione finale
+                        y += 40
+                        draw.text((400, y), f"👉 Gradazione finale: {st.session_state['last_result']} % vol", fill="red", anchor="mm", font=ImageFont.load_default())
 
-                                    # Salva immagine in buffer
-                                    buffer = BytesIO()
-                                    img.save(buffer, format="PNG")
-                                    buffer.seek(0)
+                        # Salva immagine in buffer
+                        buffer = BytesIO()
+                        img.save(buffer, format="PNG")
+                        buffer.seek(0)
 
-                                    # Bottone per scaricare l’immagine
-                                    st.download_button(
-                                        label="📥 Scarica la tua ricetta in PNG",
-                                        data=buffer,
-                                        file_name="cocktail.png",
-                                        mime="image/png"
-                                    )
+                        # Bottone per scaricare l’immagine
+                        st.download_button(
+                            label="📥 Scarica la tua ricetta in PNG",
+                            data=buffer,
+                            file_name="cocktail.png",
+                            mime="image/png"
+                        )
 
 
 
