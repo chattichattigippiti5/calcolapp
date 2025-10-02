@@ -22,7 +22,7 @@ def genera_cocktail_img(lista_alcolici, lista_analcolici, gradazione_finale):
         font_text = ImageFont.load_default()
 
     # Titolo
-    d.text((400, 60), "🍹 Cocktail Personalizzato 🍹", font=font_title, anchor="mm", fill=(255, 0, 0))
+    d.text((400, 60), "🍹 Cocktail 🍹", font=font_title, anchor="mm", fill=(255, 0, 0))
 
     # Ingredienti
     y = 150
@@ -36,7 +36,7 @@ def genera_cocktail_img(lista_alcolici, lista_analcolici, gradazione_finale):
 
     # Gradazione finale
     y += 40
-    d.text((400, y), f"👉 Gradazione finale: {gradazione_finale} % vol", font=font_title, anchor="mm", fill=(34, 139, 34))
+    d.text((400, y), f"👉 : {gradazione_finale} % vol", font=font_title, anchor="mm", fill=(34, 139, 34))
 
     # Footer
     y += 120
