@@ -623,12 +623,12 @@ with col_btn1:
 
                             # Pulsante download PDF
                 pdf_buffer = crea_pdf(lista_alcolici, lista_analcolici, st.session_state["last_result"])
-                    st.download_button(
-                        label="📥 Scarica la tua ricetta in PDF",
-                        data=pdf_buffer,
-                        file_name="cocktail.pdf",
-                        mime="application/pdf"
-                    )
+                st.download_button(
+                    label="📥 Scarica la tua ricetta in PDF",
+                    data=pdf_buffer,
+                    file_name="cocktail.pdf",
+                    mime="application/pdf"
+                )
 
 
                     st.markdown("</div>", unsafe_allow_html=True)
