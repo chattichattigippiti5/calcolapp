@@ -4,43 +4,8 @@ import streamlit.components.v1 as components
 
 import pandas as pd
 
-from fpdf import FPDF
+from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
-
-def crea_pdf(lista_alcolici, lista_analcolici, gradazione_finale):
-    pdf = FPDF()
-    pdf.add_page()
-
-    # Titolo
-    pdf.set_font("Arial", "B", 18)
-    pdf.cell(200, 10, "🍹 Cocktail Personalizzato 🍹", ln=True, align="C")
-
-    pdf.ln(10)
-    pdf.set_font("Arial", "I", 12)
-    pdf.cell(200, 10, "La tua ricetta esclusiva", ln=True, align="C")
-
-    pdf.ln(15)
-    pdf.set_font("Arial", "", 12)
-
-    # Ingredienti alcolici
-    for nome, q, g in lista_alcolici:
-        pdf.cell(0, 10, f"🥃 {nome} - {q} ml @ {g}%", ln=True)
-
-    # Ingredienti analcolici
-    for nome, q in lista_analcolici:
-        pdf.cell(0, 10, f"🥤 {nome} - {q} ml", ln=True)
-
-    pdf.ln(10)
-    pdf.set_font("Arial", "B", 14)
-    pdf.cell(0, 10, f"👉 Gradazione finale: {gradazione_finale} % vol", ln=True, align="C")
-
-    pdf.ln(10)
-    pdf.set_font("Arial", "I", 12)
-    pdf.cell(0, 10, "🌴 Cheers & Enjoy your drink! 🌴", ln=True, align="C")
-
-    return pdf.output(dest="S").encode("latin1")
-
-
 
 # Carica la lista alcolici da CSV
 df_alcolici = pd.read_csv("lista_alcolici.csv", sep=";")
@@ -624,13 +589,50 @@ with col_btn1:
                 #            buffer.seek(0)
 
                             # Pulsante download PDF
-                pdf_bytes = crea_pdf(lista_alcolici, lista_analcolici, st.session_state["last_result"])
-                st.download_button(
-                    label="📥 Scarica la tua ricetta in PDF",
-                    data=pdf_bytes,
-                    file_name="cocktail.pdf",
-                    mime="application/pdf"
-                )
+
+                            # --- Generazione immagine ---
+                            if "last_result" in st.session_state:
+                                if st.session_state["last_result"]:
+                                    # Crea immagine vuota
+                                    img = Image.new("RGB", (800, 600), color=(255, 180, 100))
+                                    draw = ImageDraw.Draw(img)
+
+                                    # Titolo
+                                    draw.text((400, 50), "🍹 Cocktail Personalizzato 🍹", fill="white", anchor="mm", font=ImageFont.load_default())
+
+                                    # Ingredienti alcolici
+                                    y = 120
+                                    draw.text((50, y), "🥃 Alcolici:", fill="black", font=ImageFont.load_default())
+                                    y += 30
+                                    for nome, q, g in lista_alcolici:
+                                        draw.text((70, y), f"- {nome} {q} ml @ {g}%", fill="black", font=ImageFont.load_default())
+                                        y += 25
+
+                                    # Ingredienti analcolici
+                                    y += 20
+                                    draw.text((50, y), "🥤 Analcolici:", fill="black", font=ImageFont.load_default())
+                                    y += 30
+                                    for nome, q in lista_analcolici:
+                                        draw.text((70, y), f"- {nome} {q} ml", fill="black", font=ImageFont.load_default())
+                                        y += 25
+
+                                    # Gradazione finale
+                                    y += 40
+                                    draw.text((400, y), f"👉 Gradazione finale: {st.session_state['last_result']} % vol", fill="red", anchor="mm", font=ImageFont.load_default())
+
+                                    # Salva immagine in buffer
+                                    buffer = BytesIO()
+                                    img.save(buffer, format="PNG")
+                                    buffer.seek(0)
+
+                                    # Bottone per scaricare l’immagine
+                                    st.download_button(
+                                        label="📥 Scarica la tua ricetta in PNG",
+                                        data=buffer,
+                                        file_name="cocktail.png",
+                                        mime="image/png"
+                                    )
+
 
 
 
