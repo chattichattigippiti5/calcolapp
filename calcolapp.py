@@ -6,6 +6,48 @@ import pandas as pd
 
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
+import streamlit as st
+
+def genera_cocktail_img(lista_alcolici, lista_analcolici, gradazione_finale):
+    # Crea immagine bianca
+    img = Image.new("RGB", (800, 1000), color="white")
+    d = ImageDraw.Draw(img)
+
+    # Font (Streamlit Cloud non sempre ha font esterni → meglio usare i built-in)
+    try:
+        font_title = ImageFont.truetype("DejaVuSans-Bold.ttf", 40)
+        font_text = ImageFont.truetype("DejaVuSans-Bold.ttf", 28)
+    except:
+        font_title = ImageFont.load_default()
+        font_text = ImageFont.load_default()
+
+    # Titolo
+    d.text((400, 60), "🍹 Cocktail Personalizzato 🍹", font=font_title, anchor="mm", fill=(255, 0, 0))
+
+    # Ingredienti
+    y = 150
+    for nome, q, g in lista_alcolici:
+        d.text((100, y), f"🥃 {nome} - {q} ml @ {g}%", font=font_text, fill=(0, 0, 0))
+        y += 40
+
+    for nome, q in lista_analcolici:
+        d.text((100, y), f"🥤 {nome} - {q} ml", font=font_text, fill=(0, 0, 0))
+        y += 40
+
+    # Gradazione finale
+    y += 40
+    d.text((400, y), f"👉 Gradazione finale: {gradazione_finale} % vol", font=font_title, anchor="mm", fill=(34, 139, 34))
+
+    # Footer
+    y += 120
+    d.text((400, y), "🌴 Cheers & Enjoy your drink! 🌴", font=font_text, anchor="mm", fill=(0, 102, 204))
+
+    # Salva in buffer
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+    return buffer
+
 
 # Carica la lista alcolici da CSV
 df_alcolici = pd.read_csv("lista_alcolici.csv", sep=";")
@@ -591,47 +633,15 @@ with col_btn1:
                             # Pulsante download PDF
 
                             # --- Generazione immagine ---
-                if "last_result" in st.session_state:
-                    if st.session_state["last_result"]:
-                        # Crea immagine vuota
-                        img = Image.new("RGB", (800, 600), color=(255, 180, 100))
-                        draw = ImageDraw.Draw(img)
+                img_buffer = genera_cocktail_img(lista_alcolici, lista_analcolici, st.session_state["last_result"])
 
-                        # Titolo
-                        draw.text((400, 50), "🍹 Cocktail Personalizzato 🍹", fill="white", anchor="mm", font=ImageFont.load_default())
+                st.download_button(
+                    label="📥 Scarica immagine ricetta",
+                    data=img_buffer,
+                    file_name="cocktail.png",
+                    mime="image/png"
+                )
 
-                        # Ingredienti alcolici
-                        y = 120
-                        draw.text((50, y), "🥃 Alcolici:", fill="black", font=ImageFont.load_default())
-                        y += 30
-                        for nome, q, g in lista_alcolici:
-                            draw.text((70, y), f"- {nome} {q} ml @ {g}%", fill="black", font=ImageFont.load_default())
-                            y += 25
-
-                        # Ingredienti analcolici
-                        y += 20
-                        draw.text((50, y), "🥤 Analcolici:", fill="black", font=ImageFont.load_default())
-                        y += 30
-                        for nome, q in lista_analcolici:
-                            draw.text((70, y), f"- {nome} {q} ml", fill="black", font=ImageFont.load_default())
-                            y += 25
-
-                        # Gradazione finale
-                        y += 40
-                        draw.text((400, y), f"👉 Gradazione finale: {st.session_state['last_result']} % vol", fill="red", anchor="mm", font=ImageFont.load_default())
-
-                        # Salva immagine in buffer
-                        buffer = BytesIO()
-                        img.save(buffer, format="PNG")
-                        buffer.seek(0)
-
-                        # Bottone per scaricare l’immagine
-                        st.download_button(
-                            label="📥 Scarica la tua ricetta in PNG",
-                            data=buffer,
-                            file_name="cocktail.png",
-                            mime="image/png"
-                        )
 
 
 
